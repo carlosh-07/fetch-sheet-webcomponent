@@ -9,12 +9,11 @@
  * It can be left blank if not needed.
  */
 
-import FetchSheet from './direflow-components/fetch-sheet';
+import FetchSheet from "./direflow-components/fetch-sheet";
 
 FetchSheet.then((element) => {
-
   /**
    * Access DOM node when it's mounted
    */
-  console.log('fetch-sheet is mounted on the DOM', element);
+  console.log("fetch-sheet is mounted on the DOM", element);
 });

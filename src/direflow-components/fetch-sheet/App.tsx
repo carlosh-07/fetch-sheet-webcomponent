@@ -1,51 +1,44 @@
-import React, { FC, useContext } from 'react';
-import { EventContext, Styled } from 'direflow-component';
-import styles from './App.css';
+import React from "react";
+import image from "./image";
+import { Styled } from "direflow-component";
+import HermanoName from "./HermanoName";
+import Container from "./Container";
+import Hermanos from "../../../test.json";
+import styles from "./styles.css";
+import CarouselStyles from "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from "react-responsive-carousel";
 
-interface IProps {
-  componentTitle: string;
-  sampleList: string[];
-}
-
-const App: FC<IProps> = (props) => {
-  const dispatch = useContext(EventContext);
-
-  const handleClick = () => {
-    const event = new Event('my-event');
-    dispatch(event);
-  };
-
-  const renderSampleList = props.sampleList.map((sample: string) => (
-    <div key={sample} className='sample-text'>
-      → {sample}
-    </div>
-  ));
-
+const App = () => {
   return (
-    <Styled styles={styles}>
-      <div className='app'>
-        <div className='top'>
-          <div className='header-image' />
-        </div>
-        <div className='bottom'>
-          <div className='header-title'>{props.componentTitle}</div>
-          <div>{renderSampleList}</div>
-          <button className='button' onClick={handleClick}>
-            Click me!
-          </button>
-        </div>
-      </div>
+    <Styled styles={[CarouselStyles, styles]}>
+      <section>
+        <h1>Alpha Line</h1>
+        <Container>
+          <div className="imageContainer">
+            <img className="together" src={`data:image/png;base64, ${image}`} />
+          </div>
+          <div>
+            <Carousel
+              width={450}
+              infiniteLoop={true}
+              showIndicators={false}
+              showThumbs={false}
+              showStatus={false}
+            >
+              {Hermanos.map((hermano) => {
+                return (
+                  <div key={hermano.number}>
+                    <img src={`data:image/png;base64, ${hermano.image}`} />
+                    <HermanoName className="legend">{`${hermano.number} - ${hermano.first_name} ${hermano.last_name} ${hermano.country_data.flag_data.emoji}`}</HermanoName>
+                  </div>
+                );
+              })}
+            </Carousel>
+          </div>
+        </Container>
+      </section>
     </Styled>
   );
 };
-
-App.defaultProps = {
-  componentTitle: 'Fetch Sheet',
-  sampleList: [
-    'Create with React',
-    'Build as Web Component',
-    'Use it anywhere!',
-  ],
-}
 
 export default App;

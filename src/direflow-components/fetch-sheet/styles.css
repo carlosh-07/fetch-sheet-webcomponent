@@ -1,0 +1,19 @@
+.display-inline-flex {
+  display: inline-flex !important;
+}
+
+.display-none {
+  display: none !important;
+}
+
+.justify-content-center {
+  justify-content: center !important;
+}
+
+.position-absolute {
+  position: absolute !important;
+}
+
+.position-relative {
+  position: relative !important;
+}

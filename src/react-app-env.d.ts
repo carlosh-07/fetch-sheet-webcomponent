@@ -1,21 +1,23 @@
 /// <reference types="react-scripts" />
 
-declare module '*.css' {
-  export default style as string
+declare module "*.css" {
+  export default style as string;
 }
 
-declare module '*.scss' {
-  export default style as string
+declare module "*.scss" {
+  export default style as string;
 }
 
-declare module '*.sass' {
-  export default style as string
+declare module "*.sass" {
+  export default style as string;
 }
 
-declare module '*.svg' {
-  import * as React from 'react';
+declare module "*.svg" {
+  import * as React from "react";
 
-  export const ReactComponent: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+  export const ReactComponent: React.FunctionComponent<
+    React.SVGProps<SVGSVGElement>
+  >;
 
   const src: string;
   export default src;
@@ -23,6 +25,6 @@ declare module '*.svg' {
 
 declare namespace JSX {
   interface IntrinsicElements {
-    'slot';
+    slot;
   }
 }
