@@ -17,3 +17,11 @@
 .position-relative {
   position: relative !important;
 }
+
+h1 {
+  font-family: "Lulo Clean";
+  font-size: 30px;
+  text-align: center;
+  margin: 0px;
+  padding-top: 5px;
+}

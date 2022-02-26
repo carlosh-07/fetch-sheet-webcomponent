@@ -10,8 +10,9 @@ export default DireflowComponent.create({
     {
       name: "font-loader",
       options: {
-        google: {
-          families: ["Advent Pro", "Noto Sans JP"],
+        custom: {
+          families: ["Lulo Clean"],
+          urls: ["http://fonts.cdnfonts.com/css/lulo-clean"],
         },
       },
     },

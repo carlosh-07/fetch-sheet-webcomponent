@@ -3,23 +3,27 @@ import image from "./image";
 import { Styled } from "direflow-component";
 import HermanoName from "./HermanoName";
 import Container from "./Container";
+import Section from "./Section";
 import Hermanos from "../../../test.json";
 import styles from "./styles.css";
+import useWindowDimensions from "./hooks/useWindowDimensions";
 import CarouselStyles from "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 
 const App = () => {
+  const { width } = useWindowDimensions();
+
   return (
     <Styled styles={[CarouselStyles, styles]}>
-      <section>
+      <Section index={0}>
         <h1>Alpha Line</h1>
         <Container>
           <div className="imageContainer">
-            <img className="together" src={`data:image/png;base64, ${image}`} />
+            <img className="linePic" src={`data:image/png;base64, ${image}`} />
           </div>
           <div>
             <Carousel
-              width={450}
+              width={width < 400 ? 275 : 375}
               infiniteLoop={true}
               showIndicators={false}
               showThumbs={false}
@@ -36,7 +40,7 @@ const App = () => {
             </Carousel>
           </div>
         </Container>
-      </section>
+      </Section>
     </Styled>
   );
 };
