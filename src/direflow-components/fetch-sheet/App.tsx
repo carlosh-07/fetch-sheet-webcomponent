@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import image from "./image";
 import { Styled } from "direflow-component";
 import HermanoName from "./HermanoName";
@@ -12,6 +12,22 @@ import { Carousel } from "react-responsive-carousel";
 
 const App = () => {
   const { width } = useWindowDimensions();
+
+  const getHermano = async () => {
+    try {
+      const response = await fetch(
+        "https://fetch-sheet-hhtvfw664q-uc.a.run.app/line/alpha"
+      );
+      const data = response.json();
+      console.log(data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    getHermano();
+  }, []);
 
   return (
     <Styled styles={[CarouselStyles, styles]}>
