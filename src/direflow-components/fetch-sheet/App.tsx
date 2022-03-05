@@ -6,26 +6,22 @@ import { LineData } from "./Types/LineData";
 const App = () => {
   const [lines, setLines] = useState<LineData>([]);
 
-  const getLines = async () => {
+  const getData = async () => {
     try {
       const response = await fetch(
-        "https://fetch-sheet-hhtvfw664q-uc.a.run.app/line/alpha"
+        "https://fetch-sheet-hhtvfw664q-uc.a.run.app/hermanosPage"
       );
       const data = await response.json();
       console.log(data);
 
-      const linesToSet = [];
-
-      linesToSet.push(data);
-
-      setLines(linesToSet);
+      setLines(data.lines);
     } catch (e) {
       console.error(e);
     }
   };
 
   useEffect(() => {
-    getLines();
+    getData();
   }, []);
 
   console.log(lines);
@@ -39,6 +35,7 @@ const App = () => {
             hermanoData={line.hermanoData}
             index={index}
             key={index}
+            line={line.line}
           />
         );
       })}

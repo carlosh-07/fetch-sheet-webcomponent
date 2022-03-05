@@ -14,19 +14,21 @@ interface LineStripProps {
   groupPic: string;
   hermanoData: HermanoData[];
   index: number;
+  line: string;
 }
 
 const LineStrip: React.FC<LineStripProps> = ({
   groupPic,
   hermanoData,
   index,
+  line,
 }) => {
   const { width } = useWindowDimensions();
 
   return (
     <Styled styles={[CarouselStyles, styles]}>
       <Section index={index}>
-        <h1>Alpha Line</h1>
+        <h1>{line}</h1>
         <Container>
           <div className="imageContainer">
             <img
@@ -44,9 +46,9 @@ const LineStrip: React.FC<LineStripProps> = ({
             >
               {hermanoData.map((hermano) => {
                 return (
-                  <div key={hermano.number}>
-                    <img src={`data:image/png;base64, ${hermano.image}`} />
-                    <HermanoName className="legend">{`${hermano.number} - ${hermano.first_name} ${hermano.last_name} ${hermano.country_data.flag_data.emoji}`}</HermanoName>
+                  <div key={hermano?.number}>
+                    <img src={`data:image/png;base64, ${hermano?.image}`} />
+                    <HermanoName className="legend">{`${hermano?.number} - ${hermano?.first_name} ${hermano?.last_name} ${hermano?.country_data.flag_data?.emoji}`}</HermanoName>
                   </div>
                 );
               })}
