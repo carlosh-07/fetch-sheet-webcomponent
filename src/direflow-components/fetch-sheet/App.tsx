@@ -1,63 +1,48 @@
-import React, { useEffect } from "react";
-import image from "./image";
-import { Styled } from "direflow-component";
-import HermanoName from "./HermanoName";
-import Container from "./Container";
-import Section from "./Section";
-import Hermanos from "../../../test.json";
-import styles from "./styles.css";
-import useWindowDimensions from "./hooks/useWindowDimensions";
-import CarouselStyles from "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from "react-responsive-carousel";
+import React, { useEffect, useState } from "react";
+
+import LineStrip from "./Components/LineStrip";
+import { LineData } from "./Types/LineData";
 
 const App = () => {
-  const { width } = useWindowDimensions();
+  const [lines, setLines] = useState<LineData>([]);
 
-  const getHermano = async () => {
+  const getLines = async () => {
     try {
       const response = await fetch(
         "https://fetch-sheet-hhtvfw664q-uc.a.run.app/line/alpha"
       );
-      const data = response.json();
+      const data = await response.json();
       console.log(data);
+
+      const linesToSet = [];
+
+      linesToSet.push(data);
+
+      setLines(linesToSet);
     } catch (e) {
       console.error(e);
     }
   };
 
   useEffect(() => {
-    getHermano();
+    getLines();
   }, []);
 
+  console.log(lines);
+
   return (
-    <Styled styles={[CarouselStyles, styles]}>
-      <Section index={0}>
-        <h1>Alpha Line</h1>
-        <Container>
-          <div className="imageContainer">
-            <img className="linePic" src={`data:image/png;base64, ${image}`} />
-          </div>
-          <div>
-            <Carousel
-              width={width < 400 ? 275 : 375}
-              infiniteLoop={true}
-              showIndicators={false}
-              showThumbs={false}
-              showStatus={false}
-            >
-              {Hermanos.map((hermano) => {
-                return (
-                  <div key={hermano.number}>
-                    <img src={`data:image/png;base64, ${hermano.image}`} />
-                    <HermanoName className="legend">{`${hermano.number} - ${hermano.first_name} ${hermano.last_name} ${hermano.country_data.flag_data.emoji}`}</HermanoName>
-                  </div>
-                );
-              })}
-            </Carousel>
-          </div>
-        </Container>
-      </Section>
-    </Styled>
+    <div>
+      {lines.map((line, index) => {
+        return (
+          <LineStrip
+            groupPic={line.group_pic}
+            hermanoData={line.hermanoData}
+            index={index}
+            key={index}
+          />
+        );
+      })}
+    </div>
   );
 };
 
