@@ -5,6 +5,7 @@ const GriddedSection = styled.section`
   grid-template:
     "image name" 100px
     "content content" / 100px auto;
+  margin-top: 5px;
 
   > #hermanoName {
     align-items: center;

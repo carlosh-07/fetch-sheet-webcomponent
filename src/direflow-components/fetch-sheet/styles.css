@@ -22,6 +22,10 @@
   position: relative !important;
 }
 
+.margin-top-l {
+  margin-top: 15px !important;
+}
+
 h1 {
   font-family: "Lulo Clean";
   font-size: 30px;

@@ -7,6 +7,7 @@ import { LineData } from "./Types/LineData";
 import { Styled } from "direflow-component";
 
 import styles from "./styles.css";
+import AlumTitleSection from "./StyledComponents/AlumTitleSection";
 
 const App = () => {
   const [lines, setLines] = useState<LineData>([]);
@@ -14,9 +15,7 @@ const App = () => {
 
   const getData = async () => {
     try {
-      const response = await fetch(
-        "https://fetch-sheet-hhtvfw664q-uc.a.run.app/hermanosPage"
-      );
+      const response = await fetch("http://localhost:5000/test.json");
       const data = await response.json();
 
       setLines(data.lines);
@@ -44,9 +43,14 @@ const App = () => {
             />
           );
         })}
-        {alumni.map((alumnus, index) => (
-          <AlumniStrip alumnus={alumnus} key={index} />
-        ))}
+        <AlumTitleSection>
+          <hr id="gold" />
+          <h1>UGA Alumni</h1>
+          <hr id="red" />
+          {alumni.map((alumnus, index) => (
+            <AlumniStrip alumnus={alumnus} key={index} />
+          ))}
+        </AlumTitleSection>
       </div>
     </Styled>
   );

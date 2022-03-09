@@ -6,7 +6,7 @@ import LinkedInIcon from "../../icons/LinkedInIcon";
 
 const DesktopAlumniStrip: React.FC<AlumniStripProps> = ({ alumnus }) => {
   return (
-    <section className="display-flex justify-content-center">
+    <section className="display-flex justify-content-center margin-top-l">
       <img
         src={`${
           alumnus?.image

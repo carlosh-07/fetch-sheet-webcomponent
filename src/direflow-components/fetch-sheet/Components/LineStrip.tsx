@@ -1,7 +1,7 @@
 import React from "react";
-import HermanoName from "../HermanoName";
+import HermanoName from "../StyledComponents/HermanoName";
 import Container from "../Container";
-import Section from "../Section";
+import Section from "../StyledComponents/Section";
 import useWindowDimensions from "../hooks/useWindowDimensions";
 import { Carousel } from "react-responsive-carousel";
 import { HermanoData } from "../Types/HermanoData";
