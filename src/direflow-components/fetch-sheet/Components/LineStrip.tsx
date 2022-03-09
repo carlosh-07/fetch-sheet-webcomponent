@@ -30,12 +30,14 @@ const LineStrip: React.FC<LineStripProps> = ({
       <Section index={index}>
         <h1>{line}</h1>
         <Container>
-          <div className="imageContainer">
-            <img
-              className="linePic"
-              src={`data:image/png;base64, ${groupPic}`}
-            />
-          </div>
+          {groupPic && (
+            <div className="imageContainer">
+              <img
+                className="linePic"
+                src={`data:image/png;base64, ${groupPic}`}
+              />
+            </div>
+          )}
           <div>
             <Carousel
               width={width < 400 ? 275 : 375}
@@ -47,8 +49,18 @@ const LineStrip: React.FC<LineStripProps> = ({
               {hermanoData.map((hermano) => {
                 return (
                   <div key={hermano?.number}>
-                    <img src={`data:image/png;base64, ${hermano?.image}`} />
-                    <HermanoName className="legend">{`${hermano?.number} - ${hermano?.first_name} ${hermano?.last_name} ${hermano?.country_data.flag_data?.emoji}`}</HermanoName>
+                    <img
+                      src={
+                        hermano?.image
+                          ? `data:image/png;base64, ${hermano?.image}`
+                          : "https://i.pinimg.com/564x/e4/7c/a3/e47ca33e179db1ee90869cbb20e4bc5e.jpg"
+                      }
+                    />
+                    <HermanoName className="legend">{`${hermano?.number} - ${
+                      hermano?.first_name
+                    } ${hermano?.last_name} ${
+                      hermano?.country_data?.flag_data?.emoji ?? ""
+                    }`}</HermanoName>
                   </div>
                 );
               })}
