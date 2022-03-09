@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
+import AlumniStrip from "./Components/AlumniStrip";
 
 import LineStrip from "./Components/LineStrip";
+import { AlumniData } from "./Types/AlumniData";
 import { LineData } from "./Types/LineData";
+import { Styled } from "direflow-component";
+
+import styles from "./styles.css";
 
 const App = () => {
   const [lines, setLines] = useState<LineData>([]);
+  const [alumni, setAlumni] = useState<AlumniData>([]);
 
   const getData = async () => {
     try {
@@ -12,9 +18,9 @@ const App = () => {
         "https://fetch-sheet-hhtvfw664q-uc.a.run.app/hermanosPage"
       );
       const data = await response.json();
-      console.log(data);
 
       setLines(data.lines);
+      setAlumni(data.alumni);
     } catch (e) {
       console.error(e);
     }
@@ -24,22 +30,25 @@ const App = () => {
     getData();
   }, []);
 
-  console.log(lines);
-
   return (
-    <div>
-      {lines.map((line, index) => {
-        return (
-          <LineStrip
-            groupPic={line.group_pic}
-            hermanoData={line.hermanoData}
-            index={index}
-            key={index}
-            line={line.line}
-          />
-        );
-      })}
-    </div>
+    <Styled styles={[styles]}>
+      <div>
+        {lines.map((line, index) => {
+          return (
+            <LineStrip
+              groupPic={line.group_pic}
+              hermanoData={line.hermanoData}
+              index={index}
+              key={index}
+              line={line.line}
+            />
+          );
+        })}
+        {alumni.map((alumnus, index) => (
+          <AlumniStrip alumnus={alumnus} key={index} />
+        ))}
+      </div>
+    </Styled>
   );
 };
 
