@@ -15,7 +15,9 @@ const App = () => {
 
   const getData = async () => {
     try {
-      const response = await fetch("http://localhost:5000/test.json");
+      const response = await fetch(
+        "https://fetch-sheet-hhtvfw664q-uc.a.run.app/hermanosPage"
+      );
       const data = await response.json();
 
       setLines(data.lines);
