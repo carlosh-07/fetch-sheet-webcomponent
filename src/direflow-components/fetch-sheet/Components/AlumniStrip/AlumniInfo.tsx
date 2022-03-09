@@ -43,7 +43,7 @@ const AlumniInfo = styled.div`
     min-height: 150px;
     max-height: 200px;
   }
-  @media only screen and (max-width: 571px) {
+  @media only screen and (min-width: 571px) {
     height: 200px;
   }
 `;
