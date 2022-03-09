@@ -1,42 +1,59 @@
-import React from "react";
-import image from "./image";
+import React, { useEffect, useState } from "react";
+import AlumniStrip from "./Components/AlumniStrip";
+
+import LineStrip from "./Components/LineStrip";
+import { AlumniData } from "./Types/AlumniData";
+import { LineData } from "./Types/LineData";
 import { Styled } from "direflow-component";
-import HermanoName from "./HermanoName";
-import Container from "./Container";
-import Hermanos from "../../../test.json";
+
 import styles from "./styles.css";
-import CarouselStyles from "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from "react-responsive-carousel";
+import AlumTitleSection from "./StyledComponents/AlumTitleSection";
 
 const App = () => {
+  const [lines, setLines] = useState<LineData>([]);
+  const [alumni, setAlumni] = useState<AlumniData>([]);
+
+  const getData = async () => {
+    try {
+      const response = await fetch(
+        "https://fetch-sheet-hhtvfw664q-uc.a.run.app/hermanosPage"
+      );
+      const data = await response.json();
+
+      setLines(data.lines);
+      setAlumni(data.alumni);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
-    <Styled styles={[CarouselStyles, styles]}>
-      <section>
-        <h1>Alpha Line</h1>
-        <Container>
-          <div className="imageContainer">
-            <img className="together" src={`data:image/png;base64, ${image}`} />
-          </div>
-          <div>
-            <Carousel
-              width={450}
-              infiniteLoop={true}
-              showIndicators={false}
-              showThumbs={false}
-              showStatus={false}
-            >
-              {Hermanos.map((hermano) => {
-                return (
-                  <div key={hermano.number}>
-                    <img src={`data:image/png;base64, ${hermano.image}`} />
-                    <HermanoName className="legend">{`${hermano.number} - ${hermano.first_name} ${hermano.last_name} ${hermano.country_data.flag_data.emoji}`}</HermanoName>
-                  </div>
-                );
-              })}
-            </Carousel>
-          </div>
-        </Container>
-      </section>
+    <Styled styles={[styles]}>
+      <div>
+        {lines.map((line, index) => {
+          return (
+            <LineStrip
+              groupPic={line.group_pic}
+              hermanoData={line.hermanoData}
+              index={index}
+              key={index}
+              line={line.line}
+            />
+          );
+        })}
+        <AlumTitleSection>
+          <hr id="gold" />
+          <h1>UGA Alumni</h1>
+          <hr id="red" />
+          {alumni.map((alumnus, index) => (
+            <AlumniStrip alumnus={alumnus} key={index} />
+          ))}
+        </AlumTitleSection>
+      </div>
     </Styled>
   );
 };

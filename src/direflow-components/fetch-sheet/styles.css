@@ -2,6 +2,10 @@
   display: inline-flex !important;
 }
 
+.display-flex {
+  display: flex !important;
+}
+
 .display-none {
   display: none !important;
 }
@@ -16,4 +20,16 @@
 
 .position-relative {
   position: relative !important;
+}
+
+.margin-top-l {
+  margin-top: 15px !important;
+}
+
+h1 {
+  font-family: "Lulo Clean";
+  font-size: 30px;
+  text-align: center;
+  margin: 0px;
+  padding-top: 5px;
 }
