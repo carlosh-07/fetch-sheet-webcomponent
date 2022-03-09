@@ -1,5 +1,8 @@
 node_modules/*
 .secrets
 test.json
+images
 images/*
 *.DS_Store*
+build
+build/*

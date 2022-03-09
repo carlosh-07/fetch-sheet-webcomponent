@@ -12,7 +12,7 @@ export default DireflowComponent.create({
       options: {
         custom: {
           families: ["Lulo Clean"],
-          urls: ["http://fonts.cdnfonts.com/css/lulo-clean"],
+          urls: ["https://fonts.cdnfonts.com/css/lulo-clean"],
         },
       },
     },
