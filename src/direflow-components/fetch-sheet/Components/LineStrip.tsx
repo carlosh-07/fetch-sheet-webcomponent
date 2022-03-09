@@ -33,6 +33,7 @@ const LineStrip: React.FC<LineStripProps> = ({
           {groupPic && (
             <div className="imageContainer">
               <img
+                alt={`${line} Line group pic`}
                 className="linePic"
                 src={`data:image/png;base64, ${groupPic}`}
               />
@@ -50,6 +51,7 @@ const LineStrip: React.FC<LineStripProps> = ({
                 return (
                   <div key={hermano?.number}>
                     <img
+                      alt={`Hermano ${hermano?.first_name} ${hermano?.last_name}`}
                       src={
                         hermano?.image
                           ? `data:image/png;base64, ${hermano?.image}`

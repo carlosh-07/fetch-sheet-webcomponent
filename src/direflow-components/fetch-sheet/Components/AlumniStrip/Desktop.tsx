@@ -14,6 +14,7 @@ const DesktopAlumniStrip: React.FC<AlumniStripProps> = ({ alumnus }) => {
             : "https://i.pinimg.com/564x/29/66/dc/2966dc922e1785ef0a1122eee9246420--free-icon-avatar.jpg"
         }`}
         height={200}
+        alt={`${alumnus.first_name} ${alumnus.last_name}`}
       />
       <AlumniInfo>
         <p id="hermanoName">{`Hermano ${alumnus?.first_name} ${alumnus?.last_name}`}</p>
