@@ -27,7 +27,12 @@ const DesktopAlumniStrip: React.FC<AlumniStripProps> = ({ alumnus }) => {
             : ""
         }${alumnus?.major && `- ${alumnus?.major}`}`}</p>
         {alumnus?.linkedin && (
-          <a className="display-flex" href={alumnus.linkedin}>
+          <a
+            className="display-flex"
+            href={alumnus.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <LinkedInIcon />
           </a>
         )}
