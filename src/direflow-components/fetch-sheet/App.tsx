@@ -8,6 +8,7 @@ import { Styled } from "direflow-component";
 
 import styles from "./styles.css";
 import AlumTitleSection from "./StyledComponents/AlumTitleSection";
+import LoadingContainer from "./StyledComponents/LoadingContainer";
 
 const App = () => {
   const [lines, setLines] = useState<LineData>([]);
@@ -31,30 +32,41 @@ const App = () => {
     getData();
   }, []);
 
+  if (alumni.length && lines.length) {
+    return (
+      <Styled styles={[styles]}>
+        <div>
+          {lines.map((line, index) => {
+            return (
+              <LineStrip
+                groupPic={line.group_pic}
+                hermanoData={line.hermanoData}
+                index={index}
+                key={index}
+                line={line.line}
+              />
+            );
+          })}
+          <AlumTitleSection>
+            <hr id="gold" />
+            <h1>UGA Alumni</h1>
+            <hr id="red" />
+            {alumni.map((alumnus, index) => (
+              <AlumniStrip alumnus={alumnus} key={index} />
+            ))}
+          </AlumTitleSection>
+        </div>
+      </Styled>
+    );
+  }
+
   return (
-    <Styled styles={[styles]}>
-      <div>
-        {lines.map((line, index) => {
-          return (
-            <LineStrip
-              groupPic={line.group_pic}
-              hermanoData={line.hermanoData}
-              index={index}
-              key={index}
-              line={line.line}
-            />
-          );
-        })}
-        <AlumTitleSection>
-          <hr id="gold" />
-          <h1>UGA Alumni</h1>
-          <hr id="red" />
-          {alumni.map((alumnus, index) => (
-            <AlumniStrip alumnus={alumnus} key={index} />
-          ))}
-        </AlumTitleSection>
-      </div>
-    </Styled>
+    <LoadingContainer>
+      <img
+        alt="loading"
+        src="https://drive.google.com/uc?export=view&id=1avFpyRDxWASgQrAzq4S-TWzxMdk-mFAu"
+      />
+    </LoadingContainer>
   );
 };
 
