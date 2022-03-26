@@ -3,18 +3,16 @@ import AlumniInfo from "./AlumniInfo";
 import { AlumniStripProps } from "./types";
 
 import LinkedInIcon from "../../icons/LinkedInIcon";
+import { ImageLoader } from "../ImageLoader";
 
 const DesktopAlumniStrip: React.FC<AlumniStripProps> = ({ alumnus }) => {
   return (
     <section className="display-flex justify-content-center margin-top-l">
-      <img
-        src={`${
-          alumnus?.image
-            ? `data:image/png;base64,${alumnus.image}`
-            : "https://i.pinimg.com/564x/29/66/dc/2966dc922e1785ef0a1122eee9246420--free-icon-avatar.jpg"
-        }`}
+      <ImageLoader
+        src={alumnus?.image}
         height={200}
         alt={`${alumnus.first_name} ${alumnus.last_name}`}
+        fallBackType="grad"
       />
       <AlumniInfo>
         <p id="hermanoName">{`Hermano ${alumnus?.first_name} ${alumnus?.last_name}`}</p>

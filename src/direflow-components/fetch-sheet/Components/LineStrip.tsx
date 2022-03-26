@@ -9,6 +9,7 @@ import { Styled } from "direflow-component";
 import CarouselStyles from "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 
 import styles from "../styles.css";
+import { ImageLoader } from "./ImageLoader";
 
 interface LineStripProps {
   groupPic: string;
@@ -50,13 +51,9 @@ const LineStrip: React.FC<LineStripProps> = ({
               {hermanoData.map((hermano) => {
                 return (
                   <div key={hermano?.number}>
-                    <img
+                    <ImageLoader
                       alt={`Hermano ${hermano?.first_name} ${hermano?.last_name}`}
-                      src={
-                        hermano?.image
-                          ? `data:image/png;base64, ${hermano?.image}`
-                          : "https://i.pinimg.com/564x/e4/7c/a3/e47ca33e179db1ee90869cbb20e4bc5e.jpg"
-                      }
+                      src={hermano?.image}
                     />
                     <HermanoName className="legend">{`${hermano?.number} - ${
                       hermano?.first_name

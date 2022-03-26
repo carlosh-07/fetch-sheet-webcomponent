@@ -1,5 +1,6 @@
 import React from "react";
 import LinkedInIcon from "../../icons/LinkedInIcon";
+import { ImageLoader } from "../ImageLoader";
 
 import AlumniInfo from "./AlumniInfo";
 import GriddedSection from "./Gridded";
@@ -8,13 +9,10 @@ import { AlumniStripProps } from "./types";
 const MobileAlumniStrip: React.FC<AlumniStripProps> = ({ alumnus }) => {
   return (
     <GriddedSection>
-      <img
-        src={`${
-          alumnus?.image
-            ? `data:image/png;base64,${alumnus.image}`
-            : "https://i.pinimg.com/564x/29/66/dc/2966dc922e1785ef0a1122eee9246420--free-icon-avatar.jpg"
-        }`}
+      <ImageLoader
         alt={`${alumnus.first_name} ${alumnus.last_name}`}
+        fallBackType="grad"
+        src={alumnus?.image}
       />
       <div id="hermanoName">
         <h2>Hermano</h2>
