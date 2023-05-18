@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>CSCI 4300 Calendar</title>
+    <meta name="author" content="Carlos Albeto Hernandez">
+    <meta name="description" content="Contains the Calendar for the first individual assignment">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        *{
+        	    font-family: "Arial";
+        	}
+        
+          	body{
+          		background-color: rgb(86,86,86);
+          	}
+        
+          	h1,h3, input, form, .words{
+          		text-align: center;
+          	}
+        
+          	h1, li, form {
+          		color: lightblue;
+          	}
+        
+          	h3, p {
+          		color: white;
+          	}
+        
+          	input{
+          		color: rgb(86,86,86);
+          		background-color: lightblue;
+        		border: 0;
+         		box-shadow: none;
+         		border-radius: 0px;
+          	}
+        
+        
+          	table
+          	{
+          		border-collapse: collapse;
+          		width:90%;
+          		table-layout: fixed;
+          		margin-left:auto; 
+            	margin-right:auto;
+          	}
+        
+          	td
+          	{
+          		height: 80px;
+          		vertical-align: top;
+          		text-align: center;
+          		color:lightblue;
+        
+          	}
+        
+          	table, tr, td 
+          	{
+          	   border: 1px solid lightblue;
+          	   overflow: scroll;
+          	}
+        
+        	#extendedEvent{
+        		background-color: lightblue;
+          		width:90%;
+          		margin-left:auto; 
+            	margin-right:auto;
+            	text-align: center;
+        
+        	}
+        
+        	#extendedEvent p{
+        		color: rgb(86,86,86) !important;
+        		text-align: center;
+        	}
+        
+        	#descriptionBox{
+        		padding-top: 2px;
+        	}
+        	
+        	#deleteButton{
+        		background-color: rgb(86,86,86);
+          		color: lightblue;
+        		border: 0;
+         		box-shadow: none;
+         		border-radius: 0px;
+         		margin: 5px;
+         		text-align: center;
+         		width: 30%;
+         		height: 20px;
+        	}
+    </style>
+
+    <script>
+        //check for Local Storage Support
+        	if (typeof(Storage) !== "undefined") {
+        		console.log("Can use localStorage")
+        	} else {
+        		alert("No localStorage available in this browser")
+        	}
+        
+        	var events =[];
+        	var ourStoredKeys = Object.keys(localStorage);
+        	for(var a = 0; a < ourStoredKeys.length; a++){
+        		//here we iterate through each stored item as long as it is not "length"
+        		if(ourStoredKeys[a] != 'length')
+        			events.push(JSON.parse(localStorage.getItem(ourStoredKeys[a])));
+        	}
+        	var idGen = events.length;
+        	localStorage.setItem("length",events.length);
+        
+        	/*
+        	 * This is an event object 
+        	 * It has a day, time, title, details, displayTitle and event identifier
+        	 * When the title of the event is over 12 character we take only the first 12 chars and apend ... 
+        	 */
+        	function Event (date, time, title, details){
+        			this.fulldate = date + " " + time;
+        			//get the date as "2018-02-xx XX:XX" and get the day
+        			var eventDateByDay = new Date(this.fulldate);
+        			this.day = eventDateByDay.getDate();
+        			this.title = title;
+        			this.details = details;
+        			this.displayTitle = this.title;
+        	 		this.eventId = "event"+idGen;
+        
+        			if(title.length >= 12)
+        				this.displayTitle = this.displayTitle.substring(0,11) + "...";
+        		}
+        
+        	/*
+        	 * This method populates the calendar with events that are inputted
+        	 * I add an event listener to each event that will display the full details
+        	 */
+         	function addEvent(anEvent, isNewEvent){
+         		var whereWeAdd = document.getElementById(anEvent.day).lastElementChild; //We get the last child for now...
+         		var eventItem = document.createElement("li");	//We create the li where the event will go
+         		eventItem.id = anEvent.eventId;
+        	 	eventItem.appendChild(document.createTextNode(anEvent.displayTitle)); // Create a text item node for our li node
+         		whereWeAdd.appendChild(eventItem); // Add that li node to our UL node
+        		eventItem.addEventListener("click", function displayExtEvent () {
+        	 		var extendedEventNode = document.getElementById("descriptionBox"); //Get the Element in which we will display the event
+        		 	extendedEventNode.innerHTML = "";
+        	 		var titleLine = document.createElement("p");
+        	 		titleLine.appendChild(document.createTextNode(anEvent.title));
+        	 		var dateLine = document.createElement("p");
+        	 		dateLine.appendChild(document.createTextNode(anEvent.fulldate));
+        	 		var detailsLine = document.createElement("p");
+        	 		detailsLine.appendChild(document.createTextNode(anEvent.details));
+        	 		extendedEventNode.appendChild(titleLine);
+        	 		extendedEventNode.appendChild(dateLine);
+        	 		extendedEventNode.appendChild(detailsLine);
+        	 		giveTheButtonLife(anEvent.eventId);
+        		});
+        		if(isNewEvent)
+        			idGen++;
+         	}
+        	
+        	/*
+        	 * This method populates the calendar with events that are in local storage
+        	 * I add an event listener to each event that will display the full details
+        	 */
+        	function addStoredEvents(){
+        		for (let a = 0; a < events.length; a++) {
+        			addEvent(events[a], false);
+        		}
+        	}
+        
+        	/*
+        	 * This method gives the delete button a fucntion
+        	 * I add an event listener to the deleteButton that will will recieve the id of the event clicked
+        	 * The event listener is the @deleteTheEvent method
+        	 */
+        	function giveTheButtonLife (eventId){
+        		var ourButton = document.getElementById("deleteButton");
+        		var replaceButton= ourButton.cloneNode(true);
+        		ourButton.parentNode.replaceChild(replaceButton, ourButton);
+        		replaceButton.addEventListener("click", function deleteTheEvent(){
+        			console.log("Shabammmm! " + eventId);
+        			document.getElementById(eventId).parentNode.removeChild(document.getElementById(eventId));
+        			document.getElementById("descriptionBox").innerHTML = "<p id ='description'>Click an Event to have Info Appear Here!</p>"
+        			localStorage.removeItem(eventId);
+        			events.splice(events.indexOf(events.find(o => o.eventId === eventId)),1);
+        		});
+        		//first we will remove the element visually
+        			//remove it from the calendar
+        			//remove the description
+        			//put the default description
+        		//then we will remove it from the localstore
+        		//then we will remove it from the array 
+        	}
+        
+        	/*
+        	 * This method clears the input on our form
+        	 */
+        	function clearForm() {
+        	    document.getElementById("eventForm").reset();
+        	}
+        
+        	/*
+        	 * This method highlights today's date of February through CSS
+        	 * This is acommplished by getting today's date and only getting the day of the month
+        	 * The id's for each cell is id'd by number of the month i.e. Feb 14 had and id of '14' on the table
+        	 */
+        	function highlightCurrentDay(){
+        		var d = new Date ();
+        		var dayOfMonth = d.getDate();
+        		var dayToHighlight = document.getElementById(dayOfMonth);
+        		dayToHighlight.style.color = "indigo";
+        		dayToHighlight.style.background = "white";
+        		dayToHighlight.style.font = "30px"; 
+         	}
+        
+         	/*
+         	 * This method is going to get the input from our form
+         	 */
+         	function getEventInput(){
+        		var eventForm = document.getElementById("eventForm");
+         		//create the Event and push to array
+          		var theNewEvent = new Event(eventForm.eventDate.value, eventForm.eventTime.value, eventForm.eventTitle.value, eventForm.details.value);
+         		events.push(theNewEvent);
+         		localStorage.setItem(theNewEvent.eventId, JSON.stringify(theNewEvent));
+        		localStorage.setItem("length",events.length);
+         		clearForm(); // clear the input area
+         		addEvent(theNewEvent, true);
+         	}
+    </script>
+
+</head>
+
+<body>
+    <section>
+        <h1 id="header">
+            JavaScript Calendar
+        </h1>
+        <br>
+        <h3>
+            Add an event
+        </h3>
+        <form id="eventForm">
+            Event Date:
+            <input type="date" name="eventDate" max="2018-02-28" min="2018-02-01"> Event Time:
+            <input type="time" name="eventTime">
+            <br> Event Title:
+            <input type="text" name="eventTitle" placeholder="Your Event Here">
+            <br> Event Details:
+            <br>
+            <textarea name="details" rows="3" cols="30" style="width:500px;" placeholder="Enter your event details here."></textarea>
+            <br>
+            <input type="button" onclick="getEventInput()" value="Add Event">
+            <input type="button" onclick="clearForm()" value="Cancel/Reset">
+
+
+
+
+
+        </form>
+    </section>
+
+
+
+    <section>
+        <h1>
+            February 2018
+        </h1>
+
+        <table>
+            <tr>
+                <td class="dayOfWeek">Sunday</td>
+                <td class="dayOfWeek">Monday</td>
+                <td class="dayOfWeek">Tuesday</td>
+                <td class="dayOfWeek">Wednesday</td>
+                <td class="dayOfWeek">Thursday</td>
+                <td class="dayOfWeek">Friday</td>
+                <td class="dayOfWeek">Saturday</td>
+            </tr>
+
+            <tr>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td id="1">01
+                    <ul></ul>
+                </td>
+                <td id="2">02
+                    <ul></ul>
+                </td>
+                <td id="3">03
+                    <ul></ul>
+                </td>
+            </tr>
+
+            <tr>
+                <td id="4">04
+                    <ul></ul>
+                </td>
+                <td id="5">05
+                    <ul></ul>
+
+
+
+                </td>
+                <td id="6">06
+                    <ul></ul>
+                </td>
+                <td id="7">07
+                    <ul></ul>
+                </td>
+                <td id="8">08
+                    <ul></ul>
+                </td>
+                <td id="9">09
+                    <ul></ul>
+                </td>
+                <td id="10">10
+                    <ul></ul>
+                </td>
+            </tr>
+
+            <tr>
+                <td id="11">11
+                    <ul></ul>
+                </td>
+                <td id="12">12
+                    <ul></ul>
+                </td>
+                <td id="13">13
+                    <ul></ul>
+                </td>
+                <td id="14">14
+                    <ul></ul>
+                </td>
+                <td id="15">15
+                    <ul></ul>
+                </td>
+                <td id="16">16
+                    <ul></ul>
+                </td>
+                <td id="17">17
+                    <ul></ul>
+                </td>
+            </tr>
+
+            <tr>
+                <td id="18">18
+                    <ul></ul>
+                </td>
+                <td id="19">19
+                    <ul></ul>
+                </td>
+                <td id="20">20
+                    <ul></ul>
+                </td>
+                <td id="21">21
+                    <ul></ul>
+                </td>
+                <td id="22">22
+                    <ul></ul>
+                </td>
+                <td id="23">23
+                    <ul></ul>
+                </td>
+                <td id="24">24
+                    <ul></ul>
+                </td>
+            </tr>
+
+            <tr>
+                <td id="25">25
+                    <ul></ul>
+                </td>
+                <td id="26">26
+                    <ul></ul>
+                </td>
+                <td id="27">27
+                    <ul></ul>
+                </td>
+                <td id="28">28
+                    <ul></ul>
+                </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+            </tr>
+        </table>
+        <p class="words">Click on the calendar subject above to see details below</p>
+        <div id="extendedEvent">
+            <div id="descriptionBox">
+                <p id="description">Click an Event to have Info Appear Here!</p>
+            </div>
+            <input id="deleteButton" type="button" value="Delete Event">
+        </div>
+
+    </section>
+
+    <script>
+        highlightCurrentDay();
+        addStoredEvents();
+    </script>
+
+</body>
+
+</html>
